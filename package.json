@@ -1,0 +1,23 @@
+{
+  "name": "vinci",
+  "version": "0.1.0",
+  "description": "Vinci smart contract",
+  "main": "index.js",
+  "repository": "https://github.com/The-Digital-Renaissance/vinci-smart-contract",
+  "author": "Robin Raymond",
+  "license": "MIT",
+  "devDependencies": {
+    "bn.js": "^5.2.0",
+    "prettier": "^2.4.1",
+    "prettier-plugin-solidity": "^1.0.0-beta.18",
+    "truffle": "^5.4.16",
+    "truffle-assertions": "^0.9.2"
+  },
+  "scripts": {
+    "lint-contracts-check": "yarn run prettier --check contracts",
+    "lint-tests-check": "yarn run prettier --check test",
+    "lint-contracts": "yarn run prettier --write contracts",
+    "lint-tests": "yarn run prettier --write test",
+    "test": "yarn run truffle test"
+  }
+}
