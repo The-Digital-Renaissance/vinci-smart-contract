@@ -93,4 +93,29 @@ contract("Unit Tests", async (accounts) => {
 
     assert.equal(await vinci.balanceOf.call(address), amount);
   });
+
+  it("lockTokens' TokenTimelock address correctly releases VIN", async () => {
+    const vinci = await Vinci.deployed();
+    const latest = await web3.eth.getBlock("latest");
+    assert.equal(await vinci.balanceOf.call(accounts[2]), 0);
+
+    const tx = await vinci.lockTokens(accounts[2], 1, latest.timestamp + 60, {
+      from: accounts[0],
+    });
+    const address = retrieveContractAddressFromTx(tx);
+
+    const timelockContract = await TokenTimelock.at(address);
+
+    await web3.currentProvider.send(
+      {
+        method: "evm_increaseTime",
+        params: [120],
+      },
+      () => {}
+    );
+
+    await timelockContract.release({ from: accounts[2] });
+
+    assert.equal(await vinci.balanceOf.call(accounts[2]), 1);
+  });
 });
