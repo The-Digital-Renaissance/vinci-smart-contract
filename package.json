@@ -7,12 +7,14 @@
   "author": "Robin Raymond",
   "license": "MIT",
   "devDependencies": {
+    "@truffle/hdwallet-provider": "^1.5.1",
     "bn.js": "^5.2.0",
     "openzeppelin-solidity": "^4.3.2",
     "prettier": "^2.4.1",
     "prettier-plugin-solidity": "^1.0.0-beta.18",
     "truffle": "^5.4.16",
-    "truffle-assertions": "^0.9.2"
+    "truffle-assertions": "^0.9.2",
+    "truffle-plugin-verify": "^0.5.15"
   },
   "scripts": {
     "lint-contracts-check": "yarn run prettier --check contracts",

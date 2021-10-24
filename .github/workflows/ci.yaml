@@ -21,7 +21,6 @@ jobs:
     - name: Install Dependencies
       run: |
         yarn install --frozen-lockfile
-        export PATH=$PATH:./node_modules/.bin
 
     - name: Lint code
       run: |
