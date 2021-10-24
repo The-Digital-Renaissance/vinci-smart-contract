@@ -18,10 +18,9 @@
  *
  */
 
-// const HDWalletProvider = require('@truffle/hdwallet-provider');
-//
-// const fs = require('fs');
-// const mnemonic = fs.readFileSync(".secret").toString().trim();
+const HDWalletProvider = require("@truffle/hdwallet-provider");
+const Web3 = require("web3");
+const web3 = new Web3();
 
 module.exports = {
   /**
@@ -71,6 +70,18 @@ module.exports = {
     // network_id: 2111,   // This network is yours, in the cloud.
     // production: true    // Treats this network as if it was a public net. (default: false)
     // }
+    ropsten: {
+      provider: () =>
+        new HDWalletProvider(
+          process.env.DEV_ETH_PRIVATE_KEY,
+          `https://ropsten.infura.io/v3/${process.env.DEV_INFURA_PROJECT_ID}`
+        ),
+      network_id: 3, // Ropsten's id
+      gas: 4000000, // Ropsten has a lower block limit than mainnet
+      timeoutBlocks: 200, // # of blocks before a deployment times out  (minimum/default: 50)
+      skipDryRun: true, // Skip dry run before migrations? (default: false for public nets )
+      gasPrice: web3.utils.toWei("25", "gwei"),
+    },
   },
 
   // Set default mocha options here, use special reporters etc.
@@ -81,7 +92,7 @@ module.exports = {
   // Configure your compilers
   compilers: {
     solc: {
-      version: "0.8.9",    // Fetch exact version from solc-bin (default: truffle's version)
+      version: "0.8.9", // Fetch exact version from solc-bin (default: truffle's version)
       // docker: true,        // Use "0.5.1" you've installed locally with docker (default: false)
       // settings: {          // See the solidity docs for advice about optimization and evmVersion
       //  optimizer: {
@@ -90,7 +101,7 @@ module.exports = {
       //  },
       //  evmVersion: "byzantium"
       // }
-    }
+    },
   },
 
   // Truffle DB is currently disabled by default; to enable it, change enabled:
@@ -100,17 +111,23 @@ module.exports = {
   // NOTE: It is not possible to migrate your contracts to truffle DB and you should
   // make a backup of your artifacts to a safe location before enabling this feature.
   //
-  // After you backed up your artifacts you can utilize db by running migrate as follows: 
+  // After you backed up your artifacts you can utilize db by running migrate as follows:
   // $ truffle migrate --reset --compile-all
   //
   // db: {
-    // enabled: false,
-    // host: "127.0.0.1",
-    // adapter: {
-    //   name: "sqlite",
-    //   settings: {
-    //     directory: ".db"
-    //   }
-    // }
+  // enabled: false,
+  // host: "127.0.0.1",
+  // adapter: {
+  //   name: "sqlite",
+  //   settings: {
+  //     directory: ".db"
+  //   }
   // }
+  // }
+
+  api_keys: {
+    etherscan: process.env.ETHERSCAN_API_KEY,
+  },
+
+  plugins: ["truffle-plugin-verify"],
 };
