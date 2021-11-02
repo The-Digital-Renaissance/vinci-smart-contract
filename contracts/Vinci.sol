@@ -55,4 +55,17 @@ contract Vinci is ERC20, Ownable {
 
         return address(token_timelock_contract);
     }
+
+    /**
+     * @dev Withdraw tokens from contract
+     *
+     * Withdraw unlocked tokens from contract.
+     *
+     * Requirements:
+     *
+     * - `recipient` cannot be the zero address.
+     */
+    function withdraw(address recipient, uint256 amount) public onlyOwner {
+        _transfer(address(this), recipient, amount);
+    }
 }

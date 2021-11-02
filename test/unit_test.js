@@ -22,7 +22,9 @@ contract("Unit Tests", async (accounts) => {
     const vinci = await Vinci.deployed();
     const amount = await vinci.balanceOf.call(vinci.address);
     const decimals = await vinci.decimals.call();
-    assert.equal(amount, 500 * 10 ** 6 * 10 ** decimals);
+    const supply = new BN(500).mul(new BN(10).pow(new BN(6)));
+    const factor = new BN(10).pow(decimals);
+    assert.isTrue(amount.eq(supply.mul(factor)));
   });
 
   it("Only owner can call lockTokens", async () => {
@@ -117,5 +119,37 @@ contract("Unit Tests", async (accounts) => {
     await timelockContract.release({ from: accounts[2] });
 
     assert.equal(await vinci.balanceOf.call(accounts[2]), 1);
+  });
+
+  it("Only owner can call withdraw", async () => {
+    const vinci = await Vinci.deployed();
+
+    truffleAssert.reverts(
+      vinci.withdraw(accounts[3], 1, {
+        from: accounts[1],
+      })
+    );
+
+    await vinci.withdraw(accounts[3], 1, {
+      from: accounts[0],
+    });
+  });
+
+  it("Withdraw withdraws tokens", async () => {
+    const vinci = await Vinci.deployed();
+    const acc4Amount = await vinci.balanceOf.call(accounts[4]);
+    const vinciAmount = await vinci.balanceOf.call(vinci.address);
+    const amount = new BN(Math.floor(Math.random() * 10 ** 10) + 1);
+
+    await vinci.withdraw(accounts[4], amount, {
+      from: accounts[0],
+    });
+
+    assert.isTrue(
+      (await vinci.balanceOf.call(accounts[4])).eq(acc4Amount.add(amount))
+    );
+    assert.isTrue(
+      (await vinci.balanceOf.call(vinci.address)).eq(vinciAmount.sub(amount))
+    );
   });
 });
