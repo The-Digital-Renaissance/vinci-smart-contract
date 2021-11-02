@@ -7,7 +7,7 @@ import "openzeppelin-solidity/contracts/access/Ownable.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/utils/TokenTimelock.sol";
 
 contract Vinci is ERC20, Ownable {
-    constructor() ERC20("Vinci", "VIN") {
+    constructor() ERC20("Vinci", "VINCI") {
         _mint(address(this), 500 * 10**6 * 10**18);
     }
 
