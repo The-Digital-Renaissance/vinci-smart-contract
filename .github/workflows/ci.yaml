@@ -29,3 +29,6 @@ jobs:
 
     - name: Test truffle
       run: yarn test
+
+    - name: Coverage
+      run: yarn truffle run coverage
