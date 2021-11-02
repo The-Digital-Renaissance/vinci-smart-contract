@@ -9,7 +9,7 @@ certain amount of time. Once the contract is deployed, the tokens will be
 locked according to
 
  * The vesting schedule mentioned in the Whitepaper
- * Bileteral agreements with early investors
+ * Bilateral agreements with early investors
 
 
 ## Technical Considerations
