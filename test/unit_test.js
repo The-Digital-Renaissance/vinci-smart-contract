@@ -9,7 +9,7 @@ const retrieveContractAddressFromTx = (tx) =>
 contract("Unit Tests", async (accounts) => {
   it("Correctly deploys", async () => {
     const vinci = await Vinci.deployed();
-    assert.equal(await vinci.symbol.call(), "VIN");
+    assert.equal(await vinci.symbol.call(), "VINCI");
   });
 
   it("Owner is set to deployer", async () => {
