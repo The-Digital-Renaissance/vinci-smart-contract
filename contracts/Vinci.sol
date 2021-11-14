@@ -5,6 +5,7 @@ import "openzeppelin-solidity/contracts/token/ERC20/ERC20.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/IERC20.sol";
 import "openzeppelin-solidity/contracts/access/Ownable.sol";
 import "openzeppelin-solidity/contracts/token/ERC20/utils/TokenTimelock.sol";
+import "./VinciSale.sol";
 
 contract Vinci is ERC20, Ownable {
     constructor() ERC20("Vinci", "VINCI") {
@@ -15,6 +16,13 @@ contract Vinci is ERC20, Ownable {
         address indexed beneficiary,
         uint256 amount,
         uint256 releaseTime,
+        address contractAddress
+    );
+
+    event SalesContract(
+        uint256 amount,
+        uint256 releaseTime,
+        uint256 vinciTokenPrice,
         address contractAddress
     );
 
@@ -67,5 +75,29 @@ contract Vinci is ERC20, Ownable {
      */
     function withdraw(address recipient, uint256 amount) public onlyOwner {
         _transfer(address(this), recipient, amount);
+    }
+
+    function createSalesContract(
+        IERC20 exchangeAsset,
+        uint256 vinciTokenPrice,
+        uint256 releaseTime,
+        uint256 vinciAmount
+    ) public onlyOwner {
+        VinciSale vinci_sale = new VinciSale(
+            exchangeAsset,
+            IERC20(this),
+            vinciTokenPrice,
+            releaseTime,
+            _msgSender()
+        );
+
+        emit SalesContract(
+            vinciAmount,
+            releaseTime,
+            vinciTokenPrice,
+            address(vinci_sale)
+        );
+
+        _transfer(address(this), address(vinci_sale), vinciAmount);
     }
 }
