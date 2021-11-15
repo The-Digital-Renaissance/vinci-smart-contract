@@ -32,6 +32,19 @@ contract VinciSale is Ownable {
         transferOwnership(owner_);
     }
 
+    /**
+     * @dev Buy vinci tokens from this sales contract. Only a multiple of
+     * tokens can be bought.
+     *
+     * The amount is specifed in tokens (10**18 amount). If the release time
+     * of this contract is in the future, it will create a TokenTimelock
+     * contract. Otherwise it will immediately send out the tokens.
+     *
+     * Requirements:
+     *
+     * - Caller needs to own enough exchange Asset
+     * - Enough Vinci tokens need to still be in the contract.
+     */
     function buy(uint256 numberVinciTokens) public {
         uint256 amountVinci = numberVinciTokens * 10**18;
         uint256 cost = vinciPrice * numberVinciTokens;
@@ -71,11 +84,17 @@ contract VinciSale is Ownable {
         }
     }
 
+    /**
+     * @dev Retrieve proceeds from sale
+     */
     function getProceeds() public onlyOwner {
         uint256 amount = exchangeAsset.balanceOf(address(this));
         exchangeAsset.transfer(owner(), amount);
     }
 
+    /**
+     * @dev Retrieve remaining vinci
+     */
     function getVinci() public onlyOwner {
         uint256 amount = vinciContract.balanceOf(address(this));
         vinciContract.transfer(owner(), amount);

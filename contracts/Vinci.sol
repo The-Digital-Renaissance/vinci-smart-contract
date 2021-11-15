@@ -77,6 +77,17 @@ contract Vinci is ERC20, Ownable {
         _transfer(address(this), recipient, amount);
     }
 
+    /**
+     * @dev Creates a VinciSale sales contract with the specified `vinciAmount`
+     * and `vinciTokenPrice`.
+     *
+     * Note that vinciTokenPrice is specified in the exchangeAsset unit, and
+     * the price is for 1 Token (i.e. 10**18 amount of vinci). If the specifed
+     * `releaseTime` is in the past, tokens will be paid out immediately.
+     * Otherwise they will be stored in a TokenTimelock Contract.
+     *
+     * Emits a {SalesContract} event.
+     */
     function createSalesContract(
         IERC20 exchangeAsset,
         uint256 vinciTokenPrice,
