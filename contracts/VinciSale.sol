@@ -51,7 +51,7 @@ contract VinciSale is Ownable {
 
         require(
             vinciContract.balanceOf(address(this)) >= amountVinci,
-            "Not enough vinci to buy in contract"
+            "The contract does not hold enough VINCI to sell"
         );
         require(
             exchangeAsset.balanceOf(msg.sender) >= cost,
