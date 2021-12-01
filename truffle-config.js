@@ -82,6 +82,18 @@ module.exports = {
       skipDryRun: true, // Skip dry run before migrations? (default: false for public nets )
       gasPrice: web3.utils.toWei("25", "gwei"),
     },
+    polygon: {
+      provider: () =>
+        new HDWalletProvider(
+          process.env.DEV_ETH_PRIVATE_KEY,
+          `https://polygon-mainnet.infura.io/v3/a567a23ee4424522b44c57205e64597b`
+        ),
+      network_id: 137,
+      gas: 8000000,
+      timeoutBlocks: 400,
+      skipDryRun: true,
+      gasPrice: web3.utils.toWei("35", "gwei"),
+    },
   },
 
   // Set default mocha options here, use special reporters etc.
@@ -97,7 +109,7 @@ module.exports = {
       // settings: {          // See the solidity docs for advice about optimization and evmVersion
       optimizer: {
         enabled: true,
-        runs: 200
+        runs: 200,
       },
       //  evmVersion: "byzantium"
       // }
@@ -127,6 +139,7 @@ module.exports = {
 
   api_keys: {
     etherscan: process.env.ETHERSCAN_API_KEY,
+    polygonscan: "RYWIQJYZZYQIZKQ81MQG9VWZ8TJNBC81VQ",
   },
 
   plugins: ["truffle-plugin-verify", "solidity-coverage"],

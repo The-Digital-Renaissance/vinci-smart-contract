@@ -7,6 +7,8 @@ module.exports = function (deployer, network, accounts) {
   } else if (network === "ropsten") {
     deployer.deploy(TestUSD);
     return deployer.deploy(Vinci);
+  } else if (network === "polygon") {
+    return deployer.deploy(Vinci);
   } else {
     deployer.deploy(TestUSD);
     return deployer.deploy(Vinci);
